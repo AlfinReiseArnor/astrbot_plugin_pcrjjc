@@ -1,0 +1,82 @@
+{
+  "admin_id": {
+    "description": "管理员特征码",
+    "type": "string",
+    "hint": "填入管理员的账号特征码（如 QQ号 或 Matrix 的 @用户名:域名）。配置后管理员在任意群或私聊触发指令，插件会自动记住其推送路径",
+    "default": ""
+  },
+  "bili_accounts": {
+    "description": "查询用 B站/渠道服 账号列表",
+    "type": "template_list",
+    "hint": "点击添加查询账号，支持添加多个账号轮询",
+    "templates": {
+      "account_item": {
+        "name": "游戏查询账号",
+        "items": {
+          "account": {
+            "description": "B站账号 / 手机号",
+            "type": "string",
+            "default": ""
+          },
+          "password": {
+            "description": "账号密码",
+            "type": "string",
+            "secret": true,
+            "default": ""
+          },
+          "platform": {
+            "description": "服务器类型（0 = B服官服，1 = 渠道服）",
+            "type": "int",
+            "default": 0
+          }
+        }
+      }
+    }
+  },
+  "captcha_site": {
+    "description": "手动过码站点地址（可选）",
+    "type": "string",
+    "hint": "自建过码站点的根地址，例 https://captcha.example.com（末尾不加斜杠），需提供 GET /?captcha_type=1&challenge=…&gt=…&userid=…&gs=1（验证页）与 GET /api/block?userid=…（返回 {\"validate\": \"…\"}）。留空 = 不启用手动兜底，自动过码也失败时该账号登录会直接失败；没自建站点就保持留空",
+    "default": ""
+  },
+  "captcha_api": {
+    "description": "自动过码接口地址",
+    "type": "string",
+    "hint": "默认已填好移植前原作者搭建的公开过码服务，开箱可用。你有能力自建时，把这里换成自己的过码服务根地址即可（插件会请求 {地址}/geetest_renew 与 {地址}/check/{uuid}）",
+    "default": "https://pcrd.tencentbot.top"
+  },
+  "captcha_wait": {
+    "description": "手动过码等待时长（秒）",
+    "type": "int",
+    "hint": "管理员收到过码链接后，插件等待验证结果的最长时间。留空或填 0 则使用默认值 90 秒",
+    "default": 0
+  },
+  "history_keep_days": {
+    "description": "击剑记录保留天数（性能）",
+    "type": "int",
+    "hint": "每天最多清理一次早于该天数的击剑记录。历史表只增不减会让 SQLite 文件与「击剑记录 / 上升次数 / 负载查询」一起变慢，建议按需保留 30~180 天；填 0 表示永久保留（数据量大会持续变慢）",
+    "default": 90
+  },
+  "b_max_pri": {
+    "description": "B服私聊推送最大用户数",
+    "type": "int",
+    "default": 20
+  },
+  "qu_max_pri": {
+    "description": "渠道服私聊推送最大用户数",
+    "type": "int",
+    "default": 20
+  },
+  "peak_poll_enable": {
+    "description": "结算时段加速轮询",
+    "type": "bool",
+    "hint": "开启后，每天北京时间 14:50~15:05（竞技场排名结算前后）自动缩短轮询间隔，窗口外始终 30 秒。个人自用（绑定 1~2 个 UID）建议开启；若群内用户多、绑定 UID 总数很大，建议关闭或把下方间隔调大，以免请求量过高触发风控",
+    "default": true
+  },
+  "peak_poll_interval": {
+    "description": "结算时段轮询间隔（秒）",
+    "type": "int",
+    "hint": "仅在上方开关开启且处于北京时间 14:50~15:05 时生效，其余时间固定 30 秒。可填 5~30，超出范围自动纠正为边界值（填 0 或负数按 10 处理）。⚠️ 该时段请求频率约为平时的 30÷间隔 倍，且每轮会同时并发查询全部绑定：只绑 1 个 UID 时 5~10 秒很安全；2~5 个建议 10~15 秒；5 个以上建议 15~30 秒或直接关闭开关——否则可能频繁弹验证码，甚至小号被判“账号存在风险”",
+    "default": 10
+  }
+}

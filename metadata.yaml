@@ -1,0 +1,25 @@
+# author 必须与 main.py 里 @register 的第 2 个参数完全一致（插件市场会校验）；
+# repo 必须是已公开的 GitHub 仓库地址，否则无法通过发布审核。
+name: astrbot_plugin_pcrjjc
+display_name: AstrBot 公主连结竞技场插件
+short_desc: 公主连结国服（B服/渠道服）竞技场排名监控、变动推送与深域查询
+desc: >-
+  公主连结国服（B服 / 渠道服）竞技场排名监控与深域查询插件，支持全平台自动推送与 WebUI 配置。
+  绑定游戏 UID 后自动轮询 JJC / PJJC 排名，排名变动、被击剑与上线自动推送到群聊或私聊；
+  同时提供竞技场简讯、个人资料长图、深域进度查询、击剑记录与自定义头像框。
+  查询账号、管理员与推送名额上限全部在 WebUI 图形化配置，源码内不含任何硬编码账号信息。
+version: 1.0.0
+author: AlfinReiseArnor
+repo: https://github.com/AlfinReiseArnor/astrbot_plugin_pcrjjc
+# astrbot_version: ">=4.5.0"   # 填你实测通过的最低 AstrBot 版本后再取消注释
+support_platforms:
+  - aiocqhttp
+  - matrix
+  - telegram
+tags:
+  - 公主连结
+  - 竞技场
+  - 游戏
+  - 游戏查询
+  - 推送
+social_link: ""
