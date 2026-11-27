@@ -257,7 +257,7 @@ def _save_admin_umo(data: dict):
 
 # 注意：第 2 个参数是插件市场校验的署名，必须与 metadata.yaml 里的 author 完全一致。
 # 原作者（HoshinoBot 版 pcrjjc_huannai2）的致谢保留在 README「特别感谢」里，不要写在这里。
-@register("astrbot_plugin_pcrjjc", "AlfinReiseArnor", "公主连结竞技场与深域查询插件", "1.0.0")
+@register("astrbot_plugin_pcrjjc", "AlfinReiseArnor", "公主连结竞技场与深域查询插件", "1.0.1")
 class PcrJjcPlugin(Star):
     def __init__(self, context: Context, config: AstrBotConfig):
         super().__init__(context)
