@@ -264,10 +264,9 @@ class PcrJjcPlugin(Star):
         self.config = config
         init_context(context)
 
-        # 插件独立日志落盘（与 AstrBot 控制台输出并行）：
-        # setup_local_log 内部会先摘掉热重载遗留的旧 handler，再按
-        # data_dir/logs/{pcrjjc.log,error.log} 重新挂载 2MB×3 轮转的 utf-8 文件输出。
-        self._log_files = setup_local_log(logger, _data_dir)
+        # 日志统一由 AstrBot 的 logger 输出（插件市场审核禁止使用内置 logging）。
+        # setup_local_log 仅作为历史兼容空实现保留：不再创建 logs/ 目录、不挂文件 Handler。
+        setup_local_log(logger, _data_dir)
         # 维护结束后通知管理员（由 utils.query_loop 在探测成功时调用）
         set_recovery_notifier(self._notify_maintenance_recovered)
 
@@ -526,12 +525,8 @@ class PcrJjcPlugin(Star):
         await stop_notice_dispatcher()
         await pcr_sqla.close()
 
-        # 关闭并摘除本地日志 handler：避免热重载后重复打印、以及
-        # Windows 下日志文件被旧进程句柄占用导致轮转失败。
-        try:
-            remove_local_log(logger)
-        except Exception as e:
-            logger.warning(f"[pcrjjc] 关闭本地日志文件失败（不影响退出）：{e}")
+        # 本地日志落盘已移除，remove_local_log 仅作为历史兼容空实现保留（无副作用）。
+        remove_local_log(logger)
 
     async def _get_member_name(self, event: AstrMessageEvent, target_qid: str) -> str:
         gid = event.get_group_id()
